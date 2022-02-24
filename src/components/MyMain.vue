@@ -3,7 +3,7 @@
         
             <div class="container">
 
-                <div class="row row-cols-5 justify-center py-5">
+                <div v-if="!loadingInPorgress" class="row row-cols-5 justify-center py-5">
 
                     <CardMusic 
                     v-for="(details, indice) in dischi" 
@@ -12,6 +12,8 @@
                     />
 
                 </div>
+                
+                <MyLoader v-else />
 
             </div>
        
@@ -23,6 +25,8 @@
 // integro axios nel mio progetto partendo dalla copia presente in node_modules
 const axios = require('axios');
 import CardMusic from './partials/CardMusic.vue';
+import MyLoader from './partials/MyLoader.vue';
+
 
 export default {
     name: 'MyMain',
@@ -34,7 +38,8 @@ export default {
         }
     },
     components: {
-        CardMusic
+        CardMusic,
+        MyLoader
     },
     methods: {
         // creo una funzione

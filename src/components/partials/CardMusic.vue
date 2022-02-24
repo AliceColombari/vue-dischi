@@ -33,7 +33,7 @@ export default {
        background-color: #2e3a46;
        margin: 10px 0px;
        padding: 5px;
-       height: 320px;
+       height: 100%;
 
       .title {
           h2{
