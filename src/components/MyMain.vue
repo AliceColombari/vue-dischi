@@ -1,13 +1,16 @@
 <template>
     <main>
-        
+            <div class="container">
+                <MySelect @changeGenre="changeDone"/>
+            </div>
+
             <div class="container">
 
                 <div v-if="!loadingInPorgress" class="row row-cols-5 justify-center py-5">
 
                     <CardMusic 
-                    v-for="(details, indice) in dischi" 
-                    :key="indice" 
+                    v-for="details in filtredGenre" 
+                    :key="details.id" 
                     :details="details"
                     />
 
@@ -26,7 +29,7 @@
 const axios = require('axios');
 import CardMusic from './partials/CardMusic.vue';
 import MyLoader from './partials/MyLoader.vue';
-
+import MySelect from './partials/MySelect.vue';
 
 export default {
     name: 'MyMain',
@@ -34,12 +37,14 @@ export default {
         return {
             // creo un oggetto di personaggi
             dischi: [],
-            loadingInPorgress: true, 
+            loadingInPorgress: true,
+            changeGenre: ""
         }
     },
     components: {
         CardMusic,
-        MyLoader
+        MyLoader,
+        MySelect
     },
     methods: {
         // creo una funzione
@@ -54,6 +59,21 @@ export default {
                 // errore
                 console.log(error);
             })
+        },
+        // funzione per effettuare il cambio genere 
+        changeDone(text) {
+            this.changeGenre = text;
+        }
+    },
+    computed: {
+        filtredGenre() {
+            if ((this.changeGenre == "") || (this.changeGenre == "all")) {
+                return this.dischi;
+            } else {
+                return this.dischi.filter(item => {
+                    return item.genre.toLowerCase().replaceAll('', '').includes(this.changeGenre.toLowerCase().replaceAll('', ''));
+                })
+            }
         }
     },
     // chiama la funzione una volta creata azione
